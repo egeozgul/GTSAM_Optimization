@@ -80,7 +80,6 @@ If you use the standalone script instead of the loop-closure notebook:
 
 ### 1. Pose-graph SLAM and factor graphs
 
-The state consists of **poses** \(x_0, x_1, \ldots, x_{N-1}\), each a 2D pose \((x, y, \theta)\). The objective is to find the set of poses that best satisfy:
 The state consists of **poses** $x_0, x_1, \ldots, x_{N-1}$, each a 2D pose $(x, y, \theta)$. The objective is to find the set of poses that best satisfy:
 
 - **Odometry constraints** between consecutive poses (e.g. from wheel encoders or dead reckoning).
@@ -89,14 +88,14 @@ The state consists of **poses** $x_0, x_1, \ldots, x_{N-1}$, each a 2D pose $(x,
 
 This is modeled as a **factor graph**: nodes represent poses (variables) and edges represent constraints (factors). The estimator minimizes a sum of squared weighted errors:
 
-\[
+$$
 \mathbf{x}^* = \arg\min_{\mathbf{x}} \sum_k \big\| h_k(\mathbf{x}) - z_k \big\|_{\Sigma_k}^2
-\]
+$$
 
-- \(\mathbf{x}\) = vector of all poses  
-- \(z_k\) = measurement (e.g. relative pose between two nodes)  
-- \(h_k(\mathbf{x})\) = prediction from current poses  
-- \(\|\cdot\|_{\Sigma_k}\) = Mahalanobis norm with covariance \(\Sigma_k\)
+- $\mathbf{x}$ = vector of all poses  
+- $z_k$ = measurement (e.g. relative pose between two nodes)  
+- $h_k(\mathbf{x})$ = prediction from current poses  
+- $\|\cdot\|_{\Sigma_k}$ = Mahalanobis norm with covariance $\Sigma_k$
 
 GTSAM represents this as a `NonlinearFactorGraph` and solves it with nonlinear least-squares (here, Levenberg–Marquardt).
 
@@ -104,9 +103,9 @@ GTSAM represents this as a `NonlinearFactorGraph` and solves it with nonlinear l
 
 | Factor | Role | Noise (in script) |
 |--------|------|-------------------|
-| **PriorFactorPose2** | Pins pose 0 at \((0,0,0)\) | \(\sigma_{x,y,\theta} = 0.01\) |
-| **BetweenFactorPose2** (consecutive) | Odometry between \(i\) and \(i+1\) | \(\sigma_{x,y} = 0.1,\;\sigma_\theta = 0.05\) |
-| **BetweenFactorPose2** (non-consecutive) | Loop closure | \(\sigma_{x,y} = 5.0,\;\sigma_\theta = 0.5\) (weaker) |
+| **PriorFactorPose2** | Pins pose 0 at $(0,0,0)$ | $\sigma_{x,y,\theta} = 0.01$ |
+| **BetweenFactorPose2** (consecutive) | Odometry between $i$ and $i+1$ | $\sigma_{x,y} = 0.1,\;\sigma_\theta = 0.05$ |
+| **BetweenFactorPose2** (non-consecutive) | Loop closure | $\sigma_{x,y} = 5.0,\;\sigma_\theta = 0.5$ (weaker) |
 
 Weakening loop-closure noise reduces the influence of erroneous loop closures and prevents the graph from converging to poor local minima.
 
@@ -114,11 +113,11 @@ Weakening loop-closure noise reduces the influence of erroneous loop closures an
 
 The Levenberg–Marquardt method interpolates between **Gauss–Newton** (efficient near the solution) and **gradient descent** (robust when far from it). At each iteration it solves
 
-\[
+$$
 (\mathbf{H} + \lambda \mathbf{I})\,\Delta\mathbf{x} = -\mathbf{g}
-\]
+$$
 
-where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradient, and \(\lambda\) is updated each iteration (increased if the step increases the cost, decreased if it reduces it). The script uses `lambdaInitial=1`, `lambdaUpperBound=1e9`, and `lambdaFactor=10`.
+where $\mathbf{H}$ is the Hessian approximation, $\mathbf{g}$ is the gradient, and $\lambda$ is updated each iteration (increased if the step increases the cost, decreased if it reduces it). The script uses `lambdaInitial=1`, `lambdaUpperBound=1e9`, and `lambdaFactor=10`.
 
 ### 4. Pipeline (step-by-step)
 
@@ -129,7 +128,7 @@ where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradien
    Add `PriorFactorPose2(0, Pose2(0,0,0), prior_noise)` so the graph has a fixed reference.
 
 3. **Rebuild graph with custom noise**  
-   Iterate over all factors; retain priors and strong odometry, and assign weaker noise to loop closures (distinguished by \(\Delta\text{key} = 1\) for odometry vs \(\Delta\text{key} > 1\) for loop closures).
+   Iterate over all factors; retain priors and strong odometry, and assign weaker noise to loop closures (distinguished by $\Delta\text{key} = 1$ for odometry vs $\Delta\text{key} > 1$ for loop closures).
 
 4. **Optimize**  
    `LevenbergMarquardtOptimizer(graph, initial, params).optimize()` → `result_lm`.
@@ -138,7 +137,7 @@ where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradien
    Compare `graph.error(initial)` vs `graph.error(result_lm)`, report pose movements and factor counts.
 
 6. **Visualization**  
-   Extract \((x,y)\) from `initial` and `result_lm`, plot side-by-side. The notebooks save four result images (see **Results** above).
+   Extract $(x,y)$ from `initial` and `result_lm`, plot side-by-side. The notebooks save four result images (see **Results** above).
 
 ### 5. Input and output
 
@@ -163,4 +162,3 @@ where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradien
 - **3D datasets:** Run `GTSAM_LM.ipynb` to optimize grid3D, sphere, and torus datasets. It saves `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, and `GTSAM_LM_Torus.png`.
 
 The notebooks (and script) print optimization and diagnostic output to the console and save the before/after figures shown in **Results** above.
-
