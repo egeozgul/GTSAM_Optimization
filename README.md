@@ -81,6 +81,7 @@ If you use the standalone script instead of the loop-closure notebook:
 ### 1. Pose-graph SLAM and factor graphs
 
 The state consists of **poses** \(x_0, x_1, \ldots, x_{N-1}\), each a 2D pose \((x, y, \theta)\). The objective is to find the set of poses that best satisfy:
+The state consists of **poses** $x_0, x_1, \ldots, x_{N-1}$, each a 2D pose $(x, y, \theta)$. The objective is to find the set of poses that best satisfy:
 
 - **Odometry constraints** between consecutive poses (e.g. from wheel encoders or dead reckoning).
 - **Loop-closure constraints** between non-consecutive poses (e.g. from place recognition or scan matching).
@@ -162,3 +163,4 @@ where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradien
 - **3D datasets:** Run `GTSAM_LM.ipynb` to optimize grid3D, sphere, and torus datasets. It saves `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, and `GTSAM_LM_Torus.png`.
 
 The notebooks (and script) print optimization and diagnostic output to the console and save the before/after figures shown in **Results** above.
+
