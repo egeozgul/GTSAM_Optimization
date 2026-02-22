@@ -22,11 +22,11 @@ Running the notebooks (or `OptimizerScript.py`) produces side-by-side comparison
 
 **sphere_bignoise_vertex3.g2o**
 
-![Sphere: before vs after LM optimization](GTSAM_LM_sphere.png)
+![Sphere: before vs after LM optimization](GTSAM_LM_Sphere.png)
 
 **torus3D.g2o**
 
-![Torus: before vs after LM optimization](GTSAM_LM_torus.png)
+![Torus: before vs after LM optimization](GTSAM_LM_Torus.png)
 
 *The three figures above are written to `GTSAM_LM_grid3D.png`, `GTSAM_LM_sphere.png`, and `GTSAM_LM_torus.png` when `GTSAM_LM.ipynb` is run.*
 
@@ -158,3 +158,4 @@ where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradien
 - **3D datasets:** Run `GTSAM_LM.ipynb` to optimize grid3D, sphere, and torus datasets. It saves `GTSAM_LM_grid3D.png`, `GTSAM_LM_sphere.png`, and `GTSAM_LM_torus.png`.
 
 The notebooks (and script) print optimization and diagnostic output to the console and save the before/after figures shown in **Results** above.
+
