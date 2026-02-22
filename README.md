@@ -10,7 +10,6 @@ Running the notebooks (or `OptimizerScript.py`) produces side-by-side comparison
 
 ### 2D pose-graph (loop closure)
 
-![2D pose-graph: before (drift) vs after (corrected)](GTSAM_LM_LoopClosure.png)
 <img width="1589" height="719" alt="2D pose-graph: before (drift) vs after (corrected)" src="https://github.com/user-attachments/assets/35db08e0-6672-462a-b250-d7f2f54abdd3" />
 
 *From `GTSAM_LM_LoopClosure.ipynb` or `OptimizerScript.py` — written to `GTSAM_LM_OptimizedTrajectory.png`.*
@@ -19,17 +18,14 @@ Running the notebooks (or `OptimizerScript.py`) produces side-by-side comparison
 
 **grid3D.g2o**
 
-![grid3D: before vs after LM optimization](GTSAM_LM_GridCube.png)
 <img width="1597" height="788" alt="grid3D: before vs after LM optimization" src="https://github.com/user-attachments/assets/3d4b9a60-52e1-4a22-b11e-a6a193e220d2" />
 
 **sphere_bignoise_vertex3.g2o**
 
-![Sphere: before vs after LM optimization](GTSAM_LM_Sphere.png)
 <img width="1599" height="788" alt="Sphere: before vs after LM optimization" src="https://github.com/user-attachments/assets/d75eb89f-08fd-4f99-a40e-bbee6f155651" />
 
 **torus3D.g2o**
 
-![Torus: before vs after LM optimization](GTSAM_LM_Torus.png)
 <img width="1593" height="788" alt="Torus: before vs after LM optimization" src="https://github.com/user-attachments/assets/04865dcf-8553-429d-a549-045fb4bf5877" />
 
 *The three figures above are written to `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, and `GTSAM_LM_Torus.png` when `GTSAM_LM.ipynb` is run.*
@@ -166,4 +162,5 @@ where $\mathbf{H}$ is the Hessian approximation, $\mathbf{g}$ is the gradient, a
 - **3D datasets:** Run `GTSAM_LM.ipynb` to optimize grid3D, sphere, and torus datasets. It saves `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, and `GTSAM_LM_Torus.png`.
 
 The notebooks (and script) print optimization and diagnostic output to the console and save the before/after figures shown in **Results** above.
+
 
