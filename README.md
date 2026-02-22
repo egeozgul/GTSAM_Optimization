@@ -28,7 +28,11 @@ Running the notebooks (or `OptimizerScript.py`) produces side-by-side comparison
 
 ![Torus: before vs after LM optimization](GTSAM_LM_Torus.png)
 
-*The three figures above are written to `GTSAM_LM_grid3D.png`, `GTSAM_LM_sphere.png`, and `GTSAM_LM_torus.png` when `GTSAM_LM.ipynb` is run.*
+*The three figures above are written to `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, and `GTSAM_LM_Torus.png` when `GTSAM_LM.ipynb` is run.*
+
+**Target shapes (ideal, error-free).** In the absence of any error, the trajectories would match clean geometric shapes: the **grid3D** dataset would form a regular 3D grid; the **sphere** dataset would lie on a perfect sphere; the **torus** would form a perfect torus; and the **2D M10000** trajectory would form a consistent Manhattan-world loop that closes exactly (start and end coincide). Those are the “ground truth” shapes the robot would have traversed if odometry and loop-closure measurements were noiseless and perfectly consistent.
+
+**Why the results are not exactly ideal.** The optimized trajectories are not error-free or perfectly aligned to those shapes for several reasons. (1) **Measurement noise:** the datasets are generated with simulated (or real) noise on odometry and loop-closure measurements, so the constraints are mutually inconsistent. (2) **Weighted least-squares compromise:** the optimizer minimizes a weighted sum of squared errors; it finds the best compromise among conflicting constraints rather than satisfying all of them exactly. (3) **Loop-closure conflicts:** especially in 2D, wrong or noisy loop closures can pull the solution away from the true loop. (4) **Convergence:** Levenberg–Marquardt converges to a local minimum, which may not be the global minimum if the problem is non-convex. So the plots show a *corrected* trajectory that is much closer to the ideal shape than the initial drift, but residual error and slight shape distortion are expected.
 
 ---
 
@@ -48,7 +52,7 @@ This repo contains two Jupyter notebooks that demonstrate Levenberg–Marquardt 
 - **Purpose:** **3D** pose-graph SLAM on three standard benchmark datasets (grid, sphere with noise, torus).
 - **Input:** `grid3D.g2o`, `sphere_bignoise_vertex3.g2o`, and `torus3D.g2o` (downloaded in the notebook via `wget`).
 - **What it does:** Loads each .g2o file, runs Levenberg–Marquardt on each graph, and visualizes the 3D trajectory before and after optimization for all three datasets. Reports error reduction and trajectory statistics per dataset.
-- **Output:** Console diagnostics and three figures: `GTSAM_LM_grid3D.png`, `GTSAM_LM_sphere.png`, `GTSAM_LM_torus.png`.
+- **Output:** Console diagnostics and three figures: `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, `GTSAM_LM_Torus.png`.
 
 Together, the two notebooks cover **2D loop-closure SLAM** (Loop Closure) and **3D multi-dataset SLAM** (GTSAM_LM).
 
@@ -141,7 +145,7 @@ where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradien
 - **Output:**  
   - Optimized `Values` (pose estimates),  
   - Console diagnostics (errors, iterations, runtime),  
-  - **Four result images:** `GTSAM_LM_OptimizedTrajectory.png`, `GTSAM_LM_grid3D.png`, `GTSAM_LM_sphere.png`, `GTSAM_LM_torus.png`.
+  - **Four result images:** `GTSAM_LM_OptimizedTrajectory.png`, `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, `GTSAM_LM_Torus.png`.
 
 ---
 
@@ -155,7 +159,6 @@ where \(\mathbf{H}\) is the Hessian approximation, \(\mathbf{g}\) is the gradien
 ## How to run
 
 - **2D pose-graph (loop closure):** Place `M10000_P_toro.graph` in this directory and run `GTSAM_LM_LoopClosure.ipynb` (or `python OptimizerScript.py` if you use the script). This produces `GTSAM_LM_OptimizedTrajectory.png`.
-- **3D datasets:** Run `GTSAM_LM.ipynb` to optimize grid3D, sphere, and torus datasets. It saves `GTSAM_LM_grid3D.png`, `GTSAM_LM_sphere.png`, and `GTSAM_LM_torus.png`.
+- **3D datasets:** Run `GTSAM_LM.ipynb` to optimize grid3D, sphere, and torus datasets. It saves `GTSAM_LM_grid3D.png`, `GTSAM_LM_Sphere.png`, and `GTSAM_LM_Torus.png`.
 
 The notebooks (and script) print optimization and diagnostic output to the console and save the before/after figures shown in **Results** above.
-
